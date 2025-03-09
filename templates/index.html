@@ -1,0 +1,22 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}홈페이지{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>ADHD 설문 시스템</h1>
+    <p>환영합니다! 로그인 후 설문지를 작성하세요.</p>
+    {% if not user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'survey:login' %}">로그인</a>
+        <a class="btn btn-success" href="{% url 'survey:register' %}">회원가입</a>
+    {% else %}
+        {% if user.is_approved %}
+            <a class="btn btn-warning" href="{% url 'survey:survey' %}">설문 시작</a>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                관리자의 승인을 기다려주세요.
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

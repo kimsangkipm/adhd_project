@@ -1,0 +1,24 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>{{ board.title }}</h2>
+    <div class="card">
+      <div class="card-header">
+        작성자: {{ board.author }} | 작성일: {{ board.created_at|date:'Y-m-d H:i' }}
+        {% if board.updated_at != board.created_at %}
+          | 수정일: {{ board.updated_at|date:'Y-m-d H:i' }}
+        {% endif %}| 조회수: {{ board.views }}
+      </div>
+      <div class="card-body">{{ board.content|linebreaks }}</div>
+    </div>
+
+    <div class="mt-3">
+      <a href="{% url 'boarder:list' %}" class="btn btn-secondary">목록</a>
+      {% if user == board.author %}
+        <a href="{% url 'boarder:update' board.pk %}" class="btn btn-primary">수정</a>
+        <a href="{% url 'boarder:delete' board.pk %}" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
